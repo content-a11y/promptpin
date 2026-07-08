@@ -3,7 +3,17 @@ import { CopyPromptButton } from "@/components/CopyPromptButton";
 import { PromptActions } from "@/components/PromptActions";
 import { PromptCard } from "@/components/PromptCard";
 import { getPromptBySlug, getRelatedPrompts, prompts } from "@/lib/prompts";
-import { ArrowLeft, BadgeCheck, ExternalLink, Play } from "lucide-react";
+import {
+  ArrowLeft,
+  BadgeCheck,
+  Ban,
+  Box,
+  Layers3,
+  Palette,
+  Play,
+  Sparkles,
+  SunMedium,
+} from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -56,6 +66,62 @@ export default async function PromptPage({ params }: PromptPageProps) {
       return bRelated - aRelated || b.likes - a.likes;
     })
     .slice(0, 8);
+  const promptSections = [
+    {
+      key: "subject",
+      label: "Subject",
+      Icon: Box,
+      accent: "text-blue-700",
+      chip: "bg-blue-50",
+      panel: "bg-blue-50/70",
+      border: "border-blue-100",
+    },
+    {
+      key: "style",
+      label: "Style",
+      Icon: Palette,
+      accent: "text-fuchsia-700",
+      chip: "bg-fuchsia-50",
+      panel: "bg-fuchsia-50/70",
+      border: "border-fuchsia-100",
+    },
+    {
+      key: "composition",
+      label: "Composition",
+      Icon: Layers3,
+      accent: "text-emerald-700",
+      chip: "bg-emerald-50",
+      panel: "bg-emerald-50/70",
+      border: "border-emerald-100",
+    },
+    {
+      key: "lighting",
+      label: "Lighting",
+      Icon: SunMedium,
+      accent: "text-amber-700",
+      chip: "bg-amber-50",
+      panel: "bg-amber-50/70",
+      border: "border-amber-100",
+    },
+    {
+      key: "details",
+      label: "Details",
+      Icon: Sparkles,
+      accent: "text-violet-700",
+      chip: "bg-violet-50",
+      panel: "bg-violet-50/70",
+      border: "border-violet-100",
+    },
+    {
+      key: "negative",
+      label: "Negative",
+      Icon: Ban,
+      accent: "text-rose-700",
+      chip: "bg-rose-50",
+      panel: "bg-rose-50/70",
+      border: "border-rose-100",
+    },
+  ] as const;
 
   return (
     <>
@@ -130,13 +196,16 @@ export default async function PromptPage({ params }: PromptPageProps) {
                 <CopyPromptButton promptText={fullPrompt} />
               </div>
               <dl className="mt-5 space-y-4">
-                {Object.entries(prompt.structuredPrompt).map(([label, value]) => (
-                  <div key={label}>
-                    <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-zinc-500">
+                {promptSections.map(({ key, label, Icon, accent, chip, panel, border }) => (
+                  <div key={key}>
+                    <dt className={`flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] ${accent}`}>
+                      <span className={`flex h-7 w-7 items-center justify-center rounded-full ${chip}`}>
+                        <Icon className="h-4 w-4" />
+                      </span>
                       {label}
                     </dt>
-                    <dd className="mt-1 rounded-xl bg-zinc-50 p-3 text-sm leading-6 text-zinc-800">
-                      {value}
+                    <dd className={`mt-2 rounded-xl border p-3 text-sm leading-6 text-zinc-800 ${panel} ${border}`}>
+                      {prompt.structuredPrompt[key]}
                     </dd>
                   </div>
                 ))}
@@ -153,16 +222,6 @@ export default async function PromptPage({ params }: PromptPageProps) {
                 </span>
               ))}
             </div>
-
-            <a
-              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-zinc-950 px-5 text-sm font-semibold text-white hover:bg-zinc-800"
-              href={prompt.imageUrl}
-              rel="noreferrer"
-              target="_blank"
-            >
-              Open media source
-              <ExternalLink className="h-4 w-4" />
-            </a>
           </aside>
 
           <aside className="hidden xl:block">

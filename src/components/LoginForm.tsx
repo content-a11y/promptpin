@@ -1,92 +1,110 @@
 "use client";
 
-import { Mail } from "lucide-react";
+import { Eye, EyeOff, Mail } from "lucide-react";
 import { FormEvent, useState } from "react";
-import { createBrowserSupabaseClient, isSupabaseConfigured } from "@/lib/supabaseClient";
 
 const DEMO_AUTH_KEY = "promptpin-demo-auth";
 
 export function LoginForm() {
+  const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<string | null>(null);
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
-    setStatus(null);
-
-    try {
-      if (!isSupabaseConfigured) {
-        setStatus("Add Supabase env vars to enable magic-link auth.");
-        return;
-      }
-
-      const supabase = createBrowserSupabaseClient();
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: `${window.location.origin}/`,
-        },
-      });
-
-      if (error) {
-        setStatus(error.message);
-        return;
-      }
-
-      setStatus("Check your inbox for the magic sign-in link.");
-    } finally {
-      setLoading(false);
-    }
+    window.localStorage.setItem(DEMO_AUTH_KEY, "member");
+    window.setTimeout(() => {
+      window.location.href = "/";
+    }, 250);
   }
 
-  function continueAsDemoMember() {
+  function continueWithGoogle() {
     window.localStorage.setItem(DEMO_AUTH_KEY, "member");
     window.location.href = "/";
   }
 
   return (
-    <div className="space-y-5">
-      <button
-        className="h-12 w-full rounded-full bg-zinc-950 text-sm font-semibold text-white hover:bg-zinc-800"
-        onClick={continueAsDemoMember}
-        type="button"
-      >
-        Continue as demo member
-      </button>
-
-      <div className="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.16em] text-zinc-400">
-        <span className="h-px flex-1 bg-zinc-200" />
-        or use Supabase auth
-        <span className="h-px flex-1 bg-zinc-200" />
-      </div>
-
+    <div className="space-y-4">
       <form className="space-y-4" onSubmit={handleSubmit}>
-        <label className="block text-sm font-medium text-zinc-800" htmlFor="email">
-          Email address
-        </label>
         <div className="relative">
           <Mail className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
           <input
-            className="h-12 w-full rounded-full border border-zinc-200 pl-11 pr-4 outline-none focus:border-red-300 focus:ring-4 focus:ring-red-100"
+            className="h-16 w-full rounded-xl border border-zinc-400 bg-white pl-11 pr-4 text-base outline-none focus:border-zinc-950"
             id="email"
             onChange={(event) => setEmail(event.target.value)}
-            placeholder="you@example.com"
+            placeholder="Email"
             required
             type="email"
             value={email}
           />
         </div>
+
+        <div className="relative">
+          <input
+            className="h-16 w-full rounded-xl border border-zinc-400 bg-white px-4 pr-12 text-base outline-none focus:border-zinc-950"
+            id="password"
+            onChange={(event) => setPassword(event.target.value)}
+            placeholder="Password"
+            required
+            type={showPassword ? "text" : "password"}
+            value={password}
+          />
+          <button
+            aria-label={showPassword ? "Hide password" : "Show password"}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-800"
+            onClick={() => setShowPassword((value) => !value)}
+            type="button"
+          >
+            {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+          </button>
+        </div>
+
+        {mode === "login" ? (
+          <button
+            className="text-sm font-semibold text-blue-700 hover:underline"
+            type="button"
+          >
+            Forgotten password?
+          </button>
+        ) : null}
+
         <button
-          className="h-12 w-full rounded-full bg-red-600 text-sm font-semibold text-white hover:bg-red-700 disabled:cursor-not-allowed disabled:bg-zinc-400"
+          className="h-12 w-full rounded-2xl bg-red-600 text-sm font-semibold text-white hover:bg-red-700 disabled:cursor-not-allowed disabled:bg-zinc-400"
           disabled={loading}
           type="submit"
         >
-          {loading ? "Sending link..." : "Send magic link"}
+          {loading ? "Please wait..." : mode === "login" ? "Log in" : "Create account"}
         </button>
-        {status ? <p className="text-sm leading-6 text-zinc-700">{status}</p> : null}
       </form>
+
+      <div className="text-center text-xs font-medium text-zinc-950">OR</div>
+
+      <button
+        className="flex h-10 w-full items-center justify-center gap-3 rounded border border-zinc-300 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
+        onClick={continueWithGoogle}
+        type="button"
+      >
+        <span className="text-lg font-bold text-blue-600">G</span>
+        Continue with Google
+      </button>
+
+      <p className="pt-4 text-center text-base text-zinc-950">
+        {mode === "login" ? "New to PromptPin? " : "Already have an account? "}
+        <button
+          className="font-medium underline"
+          onClick={() => setMode((value) => (value === "login" ? "signup" : "login"))}
+          type="button"
+        >
+          {mode === "login" ? "Join for free" : "Log in"}
+        </button>
+      </p>
+
+      <p className="text-center text-xs leading-5 text-zinc-500">
+        Terms of Service · Privacy Policy
+      </p>
     </div>
   );
 }

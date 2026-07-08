@@ -21,12 +21,21 @@ export function AppHeader() {
           />
         </form>
 
+        <nav className="hidden items-center gap-1 text-sm font-semibold text-zinc-700 md:flex">
+          <Link className="rounded-full px-3 py-2 hover:bg-zinc-100" href="/collections">
+            Collections
+          </Link>
+          <Link className="rounded-full px-3 py-2 hover:bg-zinc-100" href="/saved">
+            Saved
+          </Link>
+        </nav>
+
         <Link
-          href="/login"
+          href="/profile"
           className="flex h-10 shrink-0 items-center gap-2 rounded-full border border-zinc-200 px-3 text-sm font-semibold hover:bg-zinc-100 sm:px-4"
         >
           <UserRound className="h-4 w-4" />
-          <span className="hidden sm:inline">Sign in</span>
+          <span className="hidden sm:inline">Profile</span>
         </Link>
       </div>
     </header>
