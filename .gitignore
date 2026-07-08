@@ -24,6 +24,7 @@
 .DS_Store
 *.pem
 Dinamic promots/
+promptpin/
 
 # debug
 npm-debug.log*
