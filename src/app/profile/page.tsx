@@ -1,8 +1,9 @@
 import { AppHeader } from "@/components/AppHeader";
+import { ProfileIdentity } from "@/components/ProfileIdentity";
 import { ProfileActions } from "@/components/ProfileActions";
 import { PromptCard } from "@/components/PromptCard";
 import { likedPrompts, savedPrompts, userCollections } from "@/lib/userContent";
-import { Bookmark, Grid3X3, Heart, Link as LinkIcon, Mail, Share2 } from "lucide-react";
+import { Bookmark, Grid3X3, Heart, Share2 } from "lucide-react";
 import Link from "next/link";
 
 export default function ProfilePage() {
@@ -12,25 +13,7 @@ export default function ProfilePage() {
       <main className="mx-auto w-full max-w-[1400px] px-4 pb-16 pt-6 sm:px-6">
         <section className="rounded-[28px] border border-zinc-200 bg-white p-5 sm:p-8">
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-            <div className="flex items-center gap-4">
-              <div className="flex h-24 w-24 items-center justify-center rounded-full bg-zinc-950 text-3xl font-bold text-white">
-                C
-              </div>
-              <div>
-                <h1 className="text-3xl font-semibold tracking-tight text-zinc-950">Content</h1>
-                <p className="mt-1 text-sm text-zinc-500">@content</p>
-                <div className="mt-3 flex flex-wrap gap-3 text-sm text-zinc-600">
-                  <span className="inline-flex items-center gap-1.5">
-                    <Mail className="h-4 w-4" />
-                    content@npl.live
-                  </span>
-                  <span className="inline-flex items-center gap-1.5">
-                    <LinkIcon className="h-4 w-4" />
-                    promptpin member
-                  </span>
-                </div>
-              </div>
-            </div>
+            <ProfileIdentity />
             <ProfileActions />
           </div>
 

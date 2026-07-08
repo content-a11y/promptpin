@@ -1,4 +1,4 @@
-export type DemoRole = "viewer" | "internal_poster" | "super_admin";
+export type DemoRole = "viewer" | "admin" | "super_admin";
 
 export type DemoAccount = {
   email: string;
@@ -23,9 +23,9 @@ export const demoAccounts: DemoAccount[] = [
   {
     email: "admin@promptpin.test",
     password: "Admin@123",
-    name: "Internal Admin",
+    name: "Admin User",
     handle: "@admin",
-    role: "internal_poster",
+    role: "admin",
   },
   {
     email: "super@promptpin.test",

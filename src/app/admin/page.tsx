@@ -47,7 +47,8 @@ export default function AdminPage() {
               <ShieldCheck className="h-6 w-6 text-red-600" />
               <h2 className="mt-4 font-semibold text-zinc-950">Access model</h2>
               <p className="mt-3 text-sm leading-6 text-zinc-600">
-                Viewers browse. Internal posters publish. Super admins manage roles and records.
+                Admins browse, like, and create collections. Super admins publish prompts and manage
+                records.
               </p>
             </section>
           </div>
