@@ -2,12 +2,12 @@
 
 import { LogOut, Settings } from "lucide-react";
 import Link from "next/link";
-
-const DEMO_AUTH_KEY = "promptpin-demo-auth";
+import { DEMO_AUTH_KEY, DEMO_USER_KEY } from "@/lib/demoAccounts";
 
 export function ProfileActions() {
   function signOut() {
     window.localStorage.removeItem(DEMO_AUTH_KEY);
+    window.localStorage.removeItem(DEMO_USER_KEY);
     window.location.href = "/";
   }
 

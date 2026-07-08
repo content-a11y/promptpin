@@ -1,12 +1,10 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { DEMO_AUTH_EVENT, DEMO_AUTH_KEY } from "@/lib/demoAccounts";
 import { FREE_PROMPT_LIMIT, prompts } from "@/lib/prompts";
 import { LoginWall } from "./LoginWall";
 import { PromptCard } from "./PromptCard";
-
-const DEMO_AUTH_KEY = "promptpin-demo-auth";
-const DEMO_AUTH_EVENT = "promptpin-demo-auth-change";
 
 function getMemberSnapshot() {
   if (typeof window === "undefined") {

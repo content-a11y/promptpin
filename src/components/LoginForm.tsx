@@ -2,8 +2,13 @@
 
 import { Eye, EyeOff, Mail } from "lucide-react";
 import { FormEvent, useState } from "react";
-
-const DEMO_AUTH_KEY = "promptpin-demo-auth";
+import {
+  DEMO_AUTH_EVENT,
+  DEMO_AUTH_KEY,
+  DEMO_USER_KEY,
+  demoAccounts,
+  getDemoAccount,
+} from "@/lib/demoAccounts";
 
 export function LoginForm() {
   const [mode, setMode] = useState<"login" | "signup">("login");
@@ -11,18 +16,33 @@ export function LoginForm() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<string | null>(null);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
+    setStatus(null);
+    const account = getDemoAccount(email, password);
+
+    if (!account) {
+      setLoading(false);
+      setStatus("Use one of the demo accounts below to test roles.");
+      return;
+    }
+
     window.localStorage.setItem(DEMO_AUTH_KEY, "member");
+    window.localStorage.setItem(DEMO_USER_KEY, JSON.stringify(account));
+    window.dispatchEvent(new Event(DEMO_AUTH_EVENT));
     window.setTimeout(() => {
       window.location.href = "/";
     }, 250);
   }
 
   function continueWithGoogle() {
+    const account = demoAccounts[0];
     window.localStorage.setItem(DEMO_AUTH_KEY, "member");
+    window.localStorage.setItem(DEMO_USER_KEY, JSON.stringify(account));
+    window.dispatchEvent(new Event(DEMO_AUTH_EVENT));
     window.location.href = "/";
   }
 
@@ -78,6 +98,7 @@ export function LoginForm() {
         >
           {loading ? "Please wait..." : mode === "login" ? "Log in" : "Create account"}
         </button>
+        {status ? <p className="text-sm font-medium text-red-700">{status}</p> : null}
       </form>
 
       <div className="text-center text-xs font-medium text-zinc-950">OR</div>
@@ -105,6 +126,19 @@ export function LoginForm() {
       <p className="text-center text-xs leading-5 text-zinc-500">
         Terms of Service · Privacy Policy
       </p>
+
+      <div className="rounded-2xl bg-zinc-50 p-4 text-left">
+        <p className="text-sm font-semibold text-zinc-950">Demo accounts</p>
+        <div className="mt-3 space-y-2 text-xs leading-5 text-zinc-600">
+          {demoAccounts.map((account) => (
+            <div className="rounded-xl bg-white p-3" key={account.email}>
+              <p className="font-semibold text-zinc-950">{account.role}</p>
+              <p>{account.email}</p>
+              <p>{account.password}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
