@@ -2,8 +2,8 @@ import { AppHeader } from "@/components/AppHeader";
 import { ProfileIdentity } from "@/components/ProfileIdentity";
 import { ProfileActions } from "@/components/ProfileActions";
 import { PromptCard } from "@/components/PromptCard";
-import { likedPrompts, savedPrompts, userCollections } from "@/lib/userContent";
-import { Bookmark, Grid3X3, Heart, Share2 } from "lucide-react";
+import { likedPrompts, userCollections } from "@/lib/userContent";
+import { Grid3X3, Heart, Pin, Share2 } from "lucide-react";
 import Link from "next/link";
 
 export default function ProfilePage() {
@@ -19,7 +19,6 @@ export default function ProfilePage() {
 
           <div className="mt-8 grid gap-3 sm:grid-cols-4">
             {[
-              { label: "Saved", value: savedPrompts.length.toString(), Icon: Bookmark, href: "/saved" },
               { label: "Liked", value: likedPrompts.length.toString(), Icon: Heart, href: "/liked" },
               {
                 label: "Collections",
@@ -27,6 +26,7 @@ export default function ProfilePage() {
                 Icon: Grid3X3,
                 href: "/collections",
               },
+              { label: "Pinned", value: "9", Icon: Pin, href: "/collections" },
               { label: "Shared", value: "13", Icon: Share2, href: "/profile" },
             ].map(({ label, value, Icon, href }) => (
               <Link
@@ -78,20 +78,22 @@ export default function ProfilePage() {
 
         <section className="grid gap-8 lg:grid-cols-2">
           <div>
-            <h2 className="mb-4 text-xl font-semibold tracking-tight text-zinc-950">Saved prompts</h2>
+            <h2 className="mb-4 text-xl font-semibold tracking-tight text-zinc-950">Liked prompts</h2>
             <div className="columns-1 gap-3 sm:columns-2">
-              {savedPrompts.map((prompt) => (
+              {likedPrompts.map((prompt) => (
                 <PromptCard canInteract key={prompt.id} prompt={prompt} />
               ))}
             </div>
           </div>
 
           <div>
-            <h2 className="mb-4 text-xl font-semibold tracking-tight text-zinc-950">Liked prompts</h2>
+            <h2 className="mb-4 text-xl font-semibold tracking-tight text-zinc-950">Collections</h2>
             <div className="columns-1 gap-3 sm:columns-2">
-              {likedPrompts.map((prompt) => (
-                <PromptCard canInteract key={prompt.id} prompt={prompt} />
-              ))}
+              {userCollections.flatMap((collection) =>
+                collection.prompts.slice(0, 1).map((prompt) => (
+                  <PromptCard canInteract key={`${collection.slug}-${prompt.id}`} prompt={prompt} />
+                )),
+              )}
             </div>
           </div>
         </section>

@@ -1,6 +1,5 @@
 import { prompts } from "./prompts";
 
-export const savedPrompts = prompts.slice(0, 6);
 export const likedPrompts = prompts.slice(4, 10);
 
 export const userCollections = [

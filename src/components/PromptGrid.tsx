@@ -1,6 +1,6 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { DEMO_AUTH_EVENT, DEMO_AUTH_KEY } from "@/lib/demoAccounts";
 import { FREE_PROMPT_LIMIT, prompts } from "@/lib/prompts";
 import { LoginWall } from "./LoginWall";
@@ -34,9 +34,33 @@ export function PromptGrid() {
     getMemberSnapshot,
     getServerSnapshot,
   );
+  const [loadedBatches, setLoadedBatches] = useState(2);
   const freePrompts = prompts.slice(0, FREE_PROMPT_LIMIT);
   const lockedPrompts = prompts.slice(FREE_PROMPT_LIMIT);
-  const visiblePrompts = isMember ? prompts : freePrompts;
+  const endlessPrompts = useMemo(
+    () => Array.from({ length: loadedBatches }, () => prompts).flat(),
+    [loadedBatches],
+  );
+  const visiblePrompts = isMember ? endlessPrompts : freePrompts;
+
+  useEffect(() => {
+    if (!isMember) {
+      return;
+    }
+
+    function loadMoreNearBottom() {
+      const remaining =
+        document.documentElement.scrollHeight - window.innerHeight - window.scrollY;
+
+      if (remaining < 900) {
+        setLoadedBatches((count) => Math.min(count + 1, 40));
+      }
+    }
+
+    window.addEventListener("scroll", loadMoreNearBottom, { passive: true });
+
+    return () => window.removeEventListener("scroll", loadMoreNearBottom);
+  }, [isMember]);
 
   function signOutDemo() {
     window.localStorage.removeItem(DEMO_AUTH_KEY);
@@ -52,7 +76,7 @@ export function PromptGrid() {
           </h1>
           <p className="text-sm text-zinc-600">
             {isMember
-              ? "All prompts are unlocked. Like and share any prompt."
+              ? "All prompts are unlocked. Scroll forever, like, pin, and share."
               : `Preview ${FREE_PROMPT_LIMIT} free prompts. Login unlocks the rest.`}
           </p>
         </div>
@@ -68,10 +92,16 @@ export function PromptGrid() {
       </div>
 
       <div className="columns-1 gap-3 sm:columns-2 md:columns-3 xl:columns-5 2xl:columns-6">
-        {visiblePrompts.map((prompt) => (
-          <PromptCard canInteract={isMember} key={prompt.id} prompt={prompt} />
+        {visiblePrompts.map((prompt, index) => (
+          <PromptCard canInteract={isMember} key={`${prompt.id}-${index}`} prompt={prompt} />
         ))}
       </div>
+
+      {isMember ? (
+        <div className="py-8 text-center text-sm font-medium text-zinc-500">
+          Keep scrolling for more prompts
+        </div>
+      ) : null}
 
       {!isMember ? (
         <div className="relative mt-3 min-h-[560px] overflow-hidden rounded-t-[28px]">

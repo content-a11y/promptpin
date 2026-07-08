@@ -58,8 +58,8 @@ export function AppHeader() {
               <Link className="rounded-full px-3 py-2 hover:bg-zinc-100" href="/collections">
                 Collections
               </Link>
-              <Link className="rounded-full px-3 py-2 hover:bg-zinc-100" href="/saved">
-                Saved
+              <Link className="rounded-full px-3 py-2 hover:bg-zinc-100" href="/liked">
+                Liked
               </Link>
             </>
           ) : null}

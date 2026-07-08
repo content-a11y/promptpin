@@ -1,4 +1,5 @@
 import { AppHeader } from "@/components/AppHeader";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { Bell, LockKeyhole, Mail, UserRound } from "lucide-react";
 
 export default function SettingsPage() {
@@ -81,6 +82,15 @@ export default function SettingsPage() {
                   </span>
                 </span>
               </label>
+              <div className="flex items-center justify-between gap-4 rounded-2xl bg-zinc-50 p-4">
+                <div>
+                  <p className="font-semibold text-zinc-950">Dark theme</p>
+                  <p className="mt-1 text-sm text-zinc-500">
+                    Switch the prototype into a darker browsing mode.
+                  </p>
+                </div>
+                <ThemeToggle />
+              </div>
             </div>
           </section>
 
