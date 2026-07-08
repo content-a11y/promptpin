@@ -14,7 +14,7 @@ export default function LoginPage() {
             Continue browsing
           </p>
           <h1 className="mt-3 max-w-2xl text-4xl font-semibold tracking-tight text-zinc-950 sm:text-5xl">
-            Sign in after the {FREE_PROMPT_LIMIT}-prompt free preview.
+            Log in after the {FREE_PROMPT_LIMIT}-prompt free preview.
           </h1>
           <p className="mt-4 max-w-xl text-base leading-7 text-zinc-600">
             Members can see every prompt, save named collections, like posts, and share prompt boards
@@ -41,7 +41,7 @@ export default function LoginPage() {
         <aside className="self-center rounded-lg border border-zinc-200 bg-white p-6 shadow-sm">
           <h2 className="text-xl font-semibold tracking-tight text-zinc-950">Login or create account</h2>
           <p className="mt-2 text-sm leading-6 text-zinc-600">
-            Magic link auth is wired for Supabase once env vars are added.
+            For the prototype, continue as a demo member to unlock all prompts immediately.
           </p>
           <div className="mt-6">
             <LoginForm />

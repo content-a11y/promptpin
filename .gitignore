@@ -25,6 +25,7 @@
 *.pem
 Dinamic promots/
 promptpin/
+supabase/.temp/
 
 # debug
 npm-debug.log*

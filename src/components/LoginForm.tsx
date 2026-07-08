@@ -4,6 +4,8 @@ import { Mail } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { createBrowserSupabaseClient, isSupabaseConfigured } from "@/lib/supabaseClient";
 
+const DEMO_AUTH_KEY = "promptpin-demo-auth";
+
 export function LoginForm() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<string | null>(null);
@@ -39,31 +41,52 @@ export function LoginForm() {
     }
   }
 
+  function continueAsDemoMember() {
+    window.localStorage.setItem(DEMO_AUTH_KEY, "member");
+    window.location.href = "/";
+  }
+
   return (
-    <form className="space-y-4" onSubmit={handleSubmit}>
-      <label className="block text-sm font-medium text-zinc-800" htmlFor="email">
-        Email address
-      </label>
-      <div className="relative">
-        <Mail className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
-        <input
-          className="h-12 w-full rounded-full border border-zinc-200 pl-11 pr-4 outline-none focus:border-red-300 focus:ring-4 focus:ring-red-100"
-          id="email"
-          onChange={(event) => setEmail(event.target.value)}
-          placeholder="you@example.com"
-          required
-          type="email"
-          value={email}
-        />
-      </div>
+    <div className="space-y-5">
       <button
-        className="h-12 w-full rounded-full bg-red-600 text-sm font-semibold text-white hover:bg-red-700 disabled:cursor-not-allowed disabled:bg-zinc-400"
-        disabled={loading}
-        type="submit"
+        className="h-12 w-full rounded-full bg-zinc-950 text-sm font-semibold text-white hover:bg-zinc-800"
+        onClick={continueAsDemoMember}
+        type="button"
       >
-        {loading ? "Sending link..." : "Send magic link"}
+        Continue as demo member
       </button>
-      {status ? <p className="text-sm leading-6 text-zinc-700">{status}</p> : null}
-    </form>
+
+      <div className="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.16em] text-zinc-400">
+        <span className="h-px flex-1 bg-zinc-200" />
+        or use Supabase auth
+        <span className="h-px flex-1 bg-zinc-200" />
+      </div>
+
+      <form className="space-y-4" onSubmit={handleSubmit}>
+        <label className="block text-sm font-medium text-zinc-800" htmlFor="email">
+          Email address
+        </label>
+        <div className="relative">
+          <Mail className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
+          <input
+            className="h-12 w-full rounded-full border border-zinc-200 pl-11 pr-4 outline-none focus:border-red-300 focus:ring-4 focus:ring-red-100"
+            id="email"
+            onChange={(event) => setEmail(event.target.value)}
+            placeholder="you@example.com"
+            required
+            type="email"
+            value={email}
+          />
+        </div>
+        <button
+          className="h-12 w-full rounded-full bg-red-600 text-sm font-semibold text-white hover:bg-red-700 disabled:cursor-not-allowed disabled:bg-zinc-400"
+          disabled={loading}
+          type="submit"
+        >
+          {loading ? "Sending link..." : "Send magic link"}
+        </button>
+        {status ? <p className="text-sm leading-6 text-zinc-700">{status}</p> : null}
+      </form>
+    </div>
   );
 }
