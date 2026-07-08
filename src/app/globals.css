@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fafafa;
+  --background: #ffffff;
   --foreground: #18181b;
 }
 
@@ -28,4 +28,9 @@ select {
 
 img {
   max-width: 100%;
+}
+
+::selection {
+  background: #18181b;
+  color: #ffffff;
 }

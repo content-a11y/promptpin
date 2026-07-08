@@ -46,16 +46,16 @@ export function PromptGrid() {
   }
 
   return (
-    <section aria-label="Prompt feed" className="mx-auto max-w-[1700px] px-3 pb-16 sm:px-5">
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+    <section aria-label="Prompt feed" className="mx-auto max-w-[1800px] px-3 pb-16 sm:px-5">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-semibold tracking-tight text-zinc-950">
-            Visual prompt library
+          <h1 className="text-lg font-semibold tracking-tight text-zinc-950">
+            Prompt board
           </h1>
           <p className="text-sm text-zinc-600">
             {isMember
-              ? "You are logged in. You can see, like, and share every prompt."
-              : `Visitors can see ${FREE_PROMPT_LIMIT} free prompts before login.`}
+              ? "All prompts are unlocked. Like and share any prompt."
+              : `Preview ${FREE_PROMPT_LIMIT} free prompts. Login unlocks the rest.`}
           </p>
         </div>
         {isMember ? (
@@ -69,20 +69,20 @@ export function PromptGrid() {
         ) : null}
       </div>
 
-      <div className="columns-1 gap-4 sm:columns-2 lg:columns-4 2xl:columns-5">
+      <div className="columns-1 gap-3 sm:columns-2 md:columns-3 xl:columns-5 2xl:columns-6">
         {visiblePrompts.map((prompt) => (
           <PromptCard canInteract={isMember} key={prompt.id} prompt={prompt} />
         ))}
       </div>
 
       {!isMember ? (
-        <div className="relative mt-4 min-h-[520px] overflow-hidden">
-          <div className="columns-1 gap-4 opacity-45 blur-[2px] sm:columns-2 lg:columns-4 2xl:columns-5">
+        <div className="relative mt-3 min-h-[560px] overflow-hidden rounded-t-[28px]">
+          <div className="columns-1 gap-3 opacity-60 blur-[1.5px] sm:columns-2 md:columns-3 xl:columns-5 2xl:columns-6">
             {lockedPrompts.map((prompt) => (
               <PromptCard key={prompt.id} prompt={prompt} previewOnly />
             ))}
           </div>
-          <div className="pointer-events-none absolute inset-0 flex items-start justify-center bg-white/90 px-4 pt-16 backdrop-blur-sm">
+          <div className="pointer-events-none absolute inset-0 flex items-start justify-center bg-white/92 px-4 pt-20 backdrop-blur-md">
             <LoginWall lockedCount={lockedPrompts.length} />
           </div>
         </div>

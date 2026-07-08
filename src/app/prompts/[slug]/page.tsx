@@ -3,7 +3,7 @@ import { CopyPromptButton } from "@/components/CopyPromptButton";
 import { PromptActions } from "@/components/PromptActions";
 import { PromptCard } from "@/components/PromptCard";
 import { getPromptBySlug, getRelatedPrompts, prompts } from "@/lib/prompts";
-import { ArrowLeft, BadgeCheck, Play } from "lucide-react";
+import { ArrowLeft, BadgeCheck, ExternalLink, Play } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -47,25 +47,37 @@ export default async function PromptPage({ params }: PromptPageProps) {
   ].join("\n");
 
   const relatedPrompts = getRelatedPrompts(prompt);
+  const sideRailPrompts = prompts
+    .filter((candidate) => candidate.id !== prompt.id)
+    .sort((a, b) => {
+      const aRelated = relatedPrompts.some((relatedPrompt) => relatedPrompt.id === a.id) ? 1 : 0;
+      const bRelated = relatedPrompts.some((relatedPrompt) => relatedPrompt.id === b.id) ? 1 : 0;
+
+      return bRelated - aRelated || b.likes - a.likes;
+    })
+    .slice(0, 8);
 
   return (
     <>
       <AppHeader />
-      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <Link
-          className="inline-flex items-center gap-2 rounded-full px-2 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-100"
-          href="/"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to feed
-        </Link>
-
-        <section className="mt-4 grid gap-8 lg:grid-cols-[minmax(0,1fr)_440px]">
-          <div className="overflow-hidden rounded-lg border border-zinc-200 bg-zinc-100">
-            <div className="relative">
-              <img src={prompt.imageUrl} alt={prompt.title} className="h-full w-full object-cover" />
+      <main className="mx-auto max-w-[1800px] px-3 pb-10 pt-3 sm:px-5">
+        <section className="grid gap-4 xl:grid-cols-[minmax(420px,0.95fr)_minmax(360px,520px)_360px]">
+          <div className="relative overflow-hidden rounded-3xl bg-zinc-100 xl:sticky xl:top-[68px] xl:h-[calc(100vh-88px)]">
+            <Link
+              className="absolute left-3 top-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-zinc-950 shadow-sm backdrop-blur hover:bg-white"
+              href="/"
+              aria-label="Back to feed"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </Link>
+            <div className="relative h-full min-h-[520px]">
+              <img
+                src={prompt.imageUrl}
+                alt={prompt.title}
+                className="h-full w-full object-cover"
+              />
               {prompt.mediaType === "video" ? (
-                <span className="absolute left-5 top-5 flex items-center gap-2 rounded-full bg-zinc-950/85 px-4 py-2 text-sm font-semibold text-white">
+                <span className="absolute right-4 top-4 flex items-center gap-2 rounded-full bg-zinc-950/85 px-4 py-2 text-sm font-semibold text-white">
                   <Play className="h-4 w-4 fill-current" />
                   Video prompt
                 </span>
@@ -73,10 +85,10 @@ export default async function PromptPage({ params }: PromptPageProps) {
             </div>
           </div>
 
-          <aside className="space-y-5">
-            <div>
-              <div className="mb-3 flex flex-wrap gap-2">
-                <span className="rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-700">
+          <aside className="space-y-4 rounded-3xl border border-zinc-200 bg-white p-4 xl:min-h-[calc(100vh-88px)]">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex flex-wrap gap-2">
+                <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-semibold text-zinc-800">
                   {prompt.category}
                 </span>
                 <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-semibold text-zinc-700">
@@ -88,11 +100,14 @@ export default async function PromptPage({ params }: PromptPageProps) {
                   </span>
                 ) : null}
               </div>
-              <h1 className="text-3xl font-semibold tracking-tight text-zinc-950">{prompt.title}</h1>
-              <p className="mt-3 leading-7 text-zinc-600">{prompt.description}</p>
             </div>
 
-            <div className="flex items-center gap-3 rounded-lg border border-zinc-200 bg-white p-4">
+            <div>
+              <h1 className="text-3xl font-semibold tracking-tight text-zinc-950">{prompt.title}</h1>
+              <p className="mt-3 text-sm leading-6 text-zinc-600">{prompt.description}</p>
+            </div>
+
+            <div className="flex items-center gap-3 rounded-2xl bg-zinc-50 p-3">
               <span className="flex h-11 w-11 items-center justify-center rounded-full bg-zinc-950 text-sm font-bold text-white">
                 {prompt.creator.avatar}
               </span>
@@ -109,7 +124,7 @@ export default async function PromptPage({ params }: PromptPageProps) {
 
             <PromptActions title={prompt.title} />
 
-            <div className="rounded-lg border border-zinc-200 bg-white p-5">
+            <div className="rounded-2xl border border-zinc-200 bg-white p-5">
               <div className="flex items-center justify-between gap-3">
                 <h2 className="font-semibold text-zinc-950">Structured prompt</h2>
                 <CopyPromptButton promptText={fullPrompt} />
@@ -120,7 +135,9 @@ export default async function PromptPage({ params }: PromptPageProps) {
                     <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-zinc-500">
                       {label}
                     </dt>
-                    <dd className="mt-1 text-sm leading-6 text-zinc-800">{value}</dd>
+                    <dd className="mt-1 rounded-xl bg-zinc-50 p-3 text-sm leading-6 text-zinc-800">
+                      {value}
+                    </dd>
                   </div>
                 ))}
               </dl>
@@ -136,14 +153,35 @@ export default async function PromptPage({ params }: PromptPageProps) {
                 </span>
               ))}
             </div>
+
+            <a
+              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-zinc-950 px-5 text-sm font-semibold text-white hover:bg-zinc-800"
+              href={prompt.imageUrl}
+              rel="noreferrer"
+              target="_blank"
+            >
+              Open media source
+              <ExternalLink className="h-4 w-4" />
+            </a>
+          </aside>
+
+          <aside className="hidden xl:block">
+            <h2 className="mb-3 px-1 text-sm font-semibold tracking-tight text-zinc-950">
+              Ideas you might love
+            </h2>
+            <div className="columns-2 gap-3">
+              {sideRailPrompts.map((relatedPrompt) => (
+                <PromptCard key={relatedPrompt.id} prompt={relatedPrompt} />
+              ))}
+            </div>
           </aside>
         </section>
 
-        <section className="py-10">
-          <h2 className="mb-5 text-xl font-semibold tracking-tight text-zinc-950">
-            Relevant prompts
+        <section className="py-8 xl:hidden">
+          <h2 className="mb-4 text-lg font-semibold tracking-tight text-zinc-950">
+            Ideas you might love
           </h2>
-          <div className="columns-1 gap-5 sm:columns-2 lg:columns-4">
+          <div className="columns-1 gap-3 sm:columns-2 lg:columns-4">
             {relatedPrompts.map((relatedPrompt) => (
               <PromptCard key={relatedPrompt.id} prompt={relatedPrompt} />
             ))}

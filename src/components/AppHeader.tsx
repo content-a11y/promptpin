@@ -3,20 +3,20 @@ import Link from "next/link";
 
 export function AppHeader() {
   return (
-    <header className="sticky top-0 z-30 border-b border-zinc-200 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-[1700px] items-center gap-3 px-3 sm:px-5">
+    <header className="sticky top-0 z-30 bg-white/95 backdrop-blur">
+      <div className="mx-auto flex h-14 max-w-[1800px] items-center gap-3 px-3 sm:px-5">
         <Link href="/" className="flex shrink-0 items-center gap-2 font-semibold">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-950 text-sm font-bold text-white">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-zinc-950 text-sm font-bold text-white">
             P
           </span>
-          <span className="hidden text-lg tracking-tight sm:block">PromptPin</span>
+          <span className="hidden text-base tracking-tight sm:block">PromptPin</span>
         </Link>
 
         <form className="relative min-w-0 flex-1">
           <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
           <input
             aria-label="Search prompts"
-            className="h-10 w-full rounded-lg border border-transparent bg-zinc-200/70 pl-10 pr-4 text-sm outline-none transition placeholder:text-zinc-600 focus:border-zinc-300 focus:bg-white"
+            className="h-10 w-full rounded-lg border border-transparent bg-zinc-100 pl-10 pr-4 text-sm outline-none transition placeholder:text-zinc-500 focus:border-zinc-300 focus:bg-white"
             placeholder="Search"
           />
         </form>

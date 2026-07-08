@@ -3,16 +3,16 @@ import Link from "next/link";
 
 export function LoginWall({ lockedCount }: { lockedCount: number }) {
   return (
-    <div className="pointer-events-auto mx-auto max-w-md rounded-2xl border border-zinc-200 bg-white p-6 text-center shadow-2xl shadow-zinc-950/15">
+    <div className="pointer-events-auto mx-auto max-w-md rounded-3xl border border-zinc-200 bg-white p-7 text-center shadow-2xl shadow-zinc-950/20">
       <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-zinc-950 text-white">
         <LockKeyhole className="h-5 w-5" />
       </div>
-      <h3 className="mt-4 text-xl font-semibold tracking-tight text-zinc-950">
-        Log in to see more prompts
+      <h3 className="mt-4 text-2xl font-semibold tracking-tight text-zinc-950">
+        Unlock the full prompt board
       </h3>
       <p className="mt-2 text-sm leading-6 text-zinc-600">
-        Visitors can view 10 free prompts. Create an account or log in to unlock the next{" "}
-        {lockedCount}, like prompts, and share them with friends.
+        You have reached the 10 free prompt preview. Log in or create an account to see{" "}
+        {lockedCount} more prompts, like favorites, and share prompt links.
       </p>
       <div className="mt-5 grid gap-2 sm:grid-cols-2">
         <Link

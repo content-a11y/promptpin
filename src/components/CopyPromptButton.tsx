@@ -14,7 +14,7 @@ export function CopyPromptButton({ promptText }: { promptText: string }) {
 
   return (
     <button
-      className="inline-flex h-10 items-center gap-2 rounded-full bg-red-600 px-4 text-sm font-semibold text-white hover:bg-red-700"
+      className="inline-flex h-10 items-center gap-2 rounded-full bg-zinc-950 px-4 text-sm font-semibold text-white hover:bg-zinc-800"
       onClick={copyPrompt}
       type="button"
     >

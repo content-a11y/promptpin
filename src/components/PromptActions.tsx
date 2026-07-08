@@ -23,7 +23,7 @@ export function PromptActions({ title }: { title: string }) {
   }
 
   return (
-    <div className="space-y-3 rounded-lg border border-zinc-200 bg-white p-4">
+    <div className="space-y-3 rounded-2xl border border-zinc-200 bg-white p-4">
       <div className="grid grid-cols-3 gap-2">
         <button
           className={`flex h-11 items-center justify-center gap-2 rounded-full border text-sm font-semibold ${
@@ -77,9 +77,6 @@ export function PromptActions({ title }: { title: string }) {
           Add
         </button>
       </div>
-      <p className="text-xs leading-5 text-zinc-500">
-        This UI is ready for the Supabase `collections` and `collection_items` tables.
-      </p>
     </div>
   );
 }
