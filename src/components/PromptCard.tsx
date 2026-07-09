@@ -47,14 +47,13 @@ export function PromptCard({ prompt, canInteract = false, previewOnly = false }:
   }
 
   return (
-    <article className="group relative mb-3 break-inside-avoid overflow-visible rounded-2xl bg-white">
+    <article className="group relative mb-3 break-inside-avoid overflow-visible rounded-[18px] bg-white">
       <Link href={promptHref} className="group block">
-        <div className="relative overflow-hidden rounded-2xl bg-zinc-100">
+        <div className="relative h-[230px] overflow-hidden rounded-[18px] bg-zinc-100 sm:h-[260px]">
           <img
             src={prompt.imageUrl}
             alt={prompt.title}
-            className="w-full object-cover transition duration-300 group-hover:scale-[1.02]"
-            style={{ height: prompt.height }}
+            className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
           />
           <div className="absolute left-2 top-2 flex items-center gap-1.5">
             <span className="rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-semibold text-zinc-900 shadow-sm backdrop-blur">
@@ -66,26 +65,18 @@ export function PromptCard({ prompt, canInteract = false, previewOnly = false }:
               </span>
             ) : null}
           </div>
-          <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 bg-gradient-to-t from-zinc-950/70 via-zinc-950/15 to-transparent p-2 opacity-0 transition group-hover:opacity-100">
-            <span className="line-clamp-2 text-xs font-semibold leading-4 text-white">
-              {prompt.title}
-            </span>
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-zinc-950 shadow-sm">
-              <MoreHorizontal className="h-4 w-4" />
-            </span>
-          </div>
         </div>
       </Link>
 
-      <div className="px-1.5 py-2">
-        <div className="flex items-center justify-between gap-2">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 rounded-b-[18px] bg-gradient-to-t from-zinc-950/80 via-zinc-950/35 to-transparent p-3 pt-16">
+        <div className="flex items-end justify-between gap-2">
           <Link
             href={promptHref}
-            className="line-clamp-1 text-sm font-semibold leading-5 text-zinc-950 hover:text-zinc-600"
+            className="pointer-events-auto line-clamp-2 text-sm font-semibold leading-5 text-white"
           >
             {prompt.title}
           </Link>
-          <div className="flex shrink-0 items-center gap-1">
+          <div className="pointer-events-auto flex shrink-0 items-center gap-1 rounded-full bg-white/95 p-1 shadow-sm backdrop-blur">
             <button
               aria-label="Add to collection"
               className={`flex h-7 w-7 items-center justify-center rounded-full ${
@@ -121,6 +112,9 @@ export function PromptCard({ prompt, canInteract = false, previewOnly = false }:
             >
               <Share2 className="h-4 w-4" />
             </button>
+            <span className="flex h-7 w-7 items-center justify-center rounded-full text-zinc-700">
+              <MoreHorizontal className="h-4 w-4" />
+            </span>
           </div>
         </div>
       </div>

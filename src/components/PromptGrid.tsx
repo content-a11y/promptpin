@@ -6,6 +6,19 @@ import { FREE_PROMPT_LIMIT, prompts } from "@/lib/prompts";
 import { LoginWall } from "./LoginWall";
 import { PromptCard } from "./PromptCard";
 
+const categoryTags = [
+  "All",
+  "Fashion",
+  "F&B",
+  "Product",
+  "Beauty",
+  "SaaS",
+  "Interior",
+  "Travel",
+  "Motion",
+  "Architecture",
+];
+
 function getMemberSnapshot() {
   if (typeof window === "undefined") {
     return false;
@@ -89,6 +102,22 @@ export function PromptGrid() {
             Demo sign out
           </button>
         ) : null}
+      </div>
+
+      <div className="mb-4 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {categoryTags.map((tag) => (
+          <button
+            className={`shrink-0 rounded-full border px-4 py-2 text-sm font-semibold ${
+              tag === "All"
+                ? "border-zinc-950 bg-zinc-950 text-white"
+                : "border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-100"
+            }`}
+            key={tag}
+            type="button"
+          >
+            {tag}
+          </button>
+        ))}
       </div>
 
       <div className="columns-1 gap-3 sm:columns-2 md:columns-3 xl:columns-5 2xl:columns-6">
