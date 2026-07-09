@@ -49,7 +49,10 @@ export function PromptCard({ prompt, canInteract = false, previewOnly = false }:
   return (
     <article className="group relative mb-3 break-inside-avoid overflow-visible rounded-[18px] bg-white">
       <Link href={promptHref} className="group block">
-        <div className="relative h-[300px] overflow-hidden rounded-[18px] bg-zinc-100 sm:h-[340px]">
+        <div
+          className="relative overflow-hidden rounded-[18px] bg-zinc-100"
+          style={{ height: Math.max(220, Math.min(prompt.height, 520)) }}
+        >
           <img
             src={prompt.imageUrl}
             alt={prompt.title}

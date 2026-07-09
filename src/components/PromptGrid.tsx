@@ -124,7 +124,7 @@ export function PromptGrid() {
         ))}
       </div>
 
-      <div className="columns-1 gap-4 md:columns-2 2xl:columns-3">
+      <div className="columns-1 gap-4 sm:columns-2 lg:columns-4 2xl:columns-5">
         {visiblePrompts.map((prompt, index) => (
           <PromptCard canInteract={isMember} key={`${prompt.id}-${index}`} prompt={prompt} />
         ))}
@@ -138,7 +138,7 @@ export function PromptGrid() {
 
       {!isMember ? (
         <div className="relative mt-3 min-h-[560px] overflow-hidden rounded-t-[28px]">
-          <div className="columns-1 gap-4 opacity-60 blur-[1.5px] md:columns-2 2xl:columns-3">
+          <div className="columns-1 gap-4 opacity-60 blur-[1.5px] sm:columns-2 lg:columns-4 2xl:columns-5">
             {lockedPrompts.map((prompt) => (
               <PromptCard key={prompt.id} prompt={prompt} previewOnly />
             ))}
