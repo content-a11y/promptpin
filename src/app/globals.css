@@ -18,10 +18,6 @@ body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
 
-.dark body {
-  background: #111111;
-}
-
 button,
 a,
 input,
@@ -37,4 +33,110 @@ img {
 ::selection {
   background: #18181b;
   color: #ffffff;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+.dark body {
+  background: #0a0a0a;
+  color: #f8fafc;
+}
+
+.dark .bg-white,
+.dark .bg-zinc-50 {
+  background-color: #111111 !important;
+}
+
+.dark .bg-zinc-100,
+.dark .bg-zinc-200,
+.dark .bg-zinc-200\/70 {
+  background-color: #27272a !important;
+}
+
+.dark .bg-zinc-950,
+.dark .bg-red-600 {
+  background-color: #ffffff !important;
+  color: #0a0a0a !important;
+}
+
+.dark .hover\:bg-zinc-800:hover,
+.dark .hover\:bg-red-700:hover {
+  background-color: #e4e4e7 !important;
+  color: #0a0a0a !important;
+}
+
+.dark .hover\:bg-zinc-100:hover,
+.dark .hover\:bg-zinc-50:hover {
+  background-color: #27272a !important;
+}
+
+.dark .text-zinc-950,
+.dark .text-zinc-900,
+.dark .text-zinc-800,
+.dark .text-black {
+  color: #fafafa !important;
+}
+
+.dark .text-zinc-700,
+.dark .text-zinc-600,
+.dark .text-zinc-500 {
+  color: #d4d4d8 !important;
+}
+
+.dark .text-zinc-400,
+.dark .text-zinc-300 {
+  color: #a1a1aa !important;
+}
+
+.dark .border-zinc-100,
+.dark .border-zinc-200,
+.dark .border-zinc-300,
+.dark .border-zinc-400 {
+  border-color: #3f3f46 !important;
+}
+
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: #111111 !important;
+  color: #fafafa !important;
+  border-color: #52525b !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #a1a1aa !important;
+}
+
+.dark [class~="bg-white/95"],
+.dark [class~="bg-white/92"] {
+  background-color: rgb(17 17 17 / 0.95) !important;
+  color: #fafafa !important;
+}
+
+.dark [class~="bg-white/90"] {
+  background-color: rgb(17 17 17 / 0.9) !important;
+}
+
+.dark .shadow-zinc-950\/5,
+.dark .shadow-zinc-950\/15,
+.dark .shadow-zinc-950\/20 {
+  --tw-shadow-color: rgb(0 0 0 / 0.45) !important;
+}
+
+.dark .from-zinc-950\/80,
+.dark .from-zinc-950\/70 {
+  --tw-gradient-from: rgb(0 0 0 / 0.9) var(--tw-gradient-from-position) !important;
+}
+
+.dark .via-zinc-950\/35,
+.dark .via-zinc-950\/15 {
+  --tw-gradient-via: rgb(0 0 0 / 0.45) var(--tw-gradient-via-position) !important;
+}
+
+.dark ::selection {
+  background: #ffffff;
+  color: #0a0a0a;
 }
