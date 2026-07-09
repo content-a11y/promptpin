@@ -6,17 +6,17 @@ import { FREE_PROMPT_LIMIT, prompts } from "@/lib/prompts";
 import { LoginWall } from "./LoginWall";
 import { PromptCard } from "./PromptCard";
 
-const categoryTags = [
-  "All",
-  "Fashion",
-  "F&B",
-  "Product",
-  "Beauty",
-  "SaaS",
-  "Interior",
-  "Travel",
-  "Motion",
-  "Architecture",
+const categoryCards = [
+  { label: "All", imageUrl: prompts[0].imageUrl },
+  { label: "Fashion", imageUrl: prompts[1].imageUrl },
+  { label: "F&B", imageUrl: prompts[4].imageUrl },
+  { label: "Product", imageUrl: prompts[0].imageUrl },
+  { label: "Beauty", imageUrl: prompts[6].imageUrl },
+  { label: "SaaS", imageUrl: prompts[3].imageUrl },
+  { label: "Interior", imageUrl: prompts[2].imageUrl },
+  { label: "Travel", imageUrl: prompts[9].imageUrl },
+  { label: "Motion", imageUrl: prompts[10].imageUrl },
+  { label: "Architecture", imageUrl: prompts[5].imageUrl },
 ];
 
 function getMemberSnapshot() {
@@ -104,18 +104,22 @@ export function PromptGrid() {
         ) : null}
       </div>
 
-      <div className="mb-4 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {categoryTags.map((tag) => (
+      <div className="mb-5 flex gap-3 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {categoryCards.map((tag) => (
           <button
-            className={`shrink-0 rounded-full border px-4 py-2 text-sm font-semibold ${
-              tag === "All"
-                ? "border-zinc-950 bg-zinc-950 text-white"
-                : "border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-100"
-            }`}
-            key={tag}
+            className="group relative h-20 w-32 shrink-0 overflow-hidden rounded-2xl bg-zinc-100 text-left shadow-sm transition hover:-translate-y-0.5 sm:h-24 sm:w-40"
+            key={tag.label}
             type="button"
           >
-            {tag}
+            <img
+              alt=""
+              className="h-full w-full object-cover transition group-hover:scale-105"
+              src={tag.imageUrl}
+            />
+            <span className="absolute inset-0 bg-gradient-to-t from-zinc-950/70 via-zinc-950/15 to-transparent" />
+            <span className="absolute bottom-3 left-3 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-zinc-950 shadow-sm">
+              {tag.label}
+            </span>
           </button>
         ))}
       </div>
